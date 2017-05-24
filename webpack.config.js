@@ -12,10 +12,17 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: {
-          esModule: true,
-        }
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'vue-loader',
+            options: {
+              esModule: true,
+            }
+          }
+        ]
       },
       {
         test: /\.js$/,

@@ -13,6 +13,7 @@
     "noUnusedParameters": true,
     "pretty": true,
     "removeComments": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "target": "ES5"
   }
 }
