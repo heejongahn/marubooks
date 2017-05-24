@@ -3,7 +3,7 @@
     <img src="./assets/logo.png">
     <div>
       <input type="text" v-model="query" @blur="search">
-      <span v-if="loading">로딩 중</span>
+      <div v-if="loading">로딩 중</div>
       <ul v-else>
         <li v-for="book in books" v-text="book.title"></li>
       </ul>
@@ -30,10 +30,11 @@ export default class App extends Vue {
     const url = encodeURI(`${BASE_URL}?apikey=${API_KEY}&result=20&q="${this.query}"&sort=accu&searchType=title&output=json`)
 
     this.loading = true
-    _jsonp(url, null, (_: never, data: { channel: { item: Array<Object> } }) => {
+
+    _jsonp(url, null, (_: never, data: { channel: { item: Array<Book> } }) => {
       this.books = data.channel.item
+      this.loading = false
     })
-    this.loading = false
   }
 }
 </script>
