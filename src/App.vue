@@ -2,27 +2,71 @@
   <div id="app">
     <img src="./assets/logo.png">
     <div>
-      <input type="text" v-model="query" @blur="search">
+      <div>
+        <ul>
+          <li v-for="book in books">
+            <span v-text="book.title" /><button @click="deleteBook(book)">삭제</button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <label for="query">검색</label>
+        <input id="query" type="text" v-model="query" @blur="search">
+      </div>
       <div v-if="loading">로딩 중</div>
-      <ul v-else>
-        <li v-for="book in books" v-text="book.title"></li>
-      </ul>
+      <div v-else>
+        <div>검색 결과 (클릭해서 추가)</div>
+        <ul>
+          <li @click="addBook(title)" v-for="title in resultBookTitles" v-text="title"></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+/// <reference path="../typings.d.ts" />
+import Vue, { ComponentOptions } from 'vue'
+import VueFire from 'vuefire'
+import firebase from 'firebase'
 import Component from 'vue-class-component'
 import jsonp from 'jsonp'
 
-@Component({
-  name: 'app'
-})
+import firebaseConfig from '../firebase.json'
+
+const firebaseApp = firebase.initializeApp(firebaseConfig)
+const db = firebaseApp.database()
+
+const booksRef = db.ref('books')
+
+Vue.use(VueFire)
+
+interface Book {
+  title: string
+}
+
+interface FirebaseComponentOption extends ComponentOptions<Vue> {
+  firebase: Object
+}
+
+const componentOptions: FirebaseComponentOption = {
+  name: 'app',
+  firebase: {
+    books: booksRef
+  }
+}
+
+@Component(componentOptions)
 export default class App extends Vue {
-  books: Array<object> = []
+  $firebaseRefs: any
+  searchResult: Array<Book> = []
   query: string = ''
   loading: boolean = false
+
+  get resultBookTitles (): Array<string> {
+    return this.searchResult.map(book => book.title)
+  }
+
   search ():void {
     const _jsonp: Function = jsonp
     const BASE_URL = 'https://apis.daum.net/search/book'
@@ -32,9 +76,19 @@ export default class App extends Vue {
     this.loading = true
 
     _jsonp(url, null, (_: never, data: { channel: { item: Array<Book> } }) => {
-      this.books = data.channel.item
+      this.searchResult = data.channel.item
       this.loading = false
     })
+  }
+
+  addBook (title: string):void {
+    this.$firebaseRefs.books.push({
+      title
+    })
+  }
+
+  deleteBook (book: {key: string}): void {
+   this.$firebaseRefs.books.child(book['.key']).remove()
   }
 }
 </script>
