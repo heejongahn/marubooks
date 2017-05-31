@@ -20,6 +20,10 @@ module.exports = {
             loader: 'vue-loader',
             options: {
               esModule: true,
+              cssModules: {
+                localIdentName: '[path][name]---[local]---[hash:base64:5]',
+                camelCase: true
+              }
             }
           }
         ]

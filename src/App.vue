@@ -2,12 +2,8 @@
   <div id="app">
     <img src="./assets/logo.png">
     <div>
-      <div>
-        <ul>
-          <li v-for="book in books">
-            <span v-text="book.title" /><button @click="deleteBook(book)">삭제</button>
-          </li>
-        </ul>
+      <div :class="$style.cards">
+        <card v-for="book in books" key="book.title" :book="book" />
       </div>
       <div>
         <label for="query">검색</label>
@@ -17,7 +13,7 @@
       <div v-else>
         <div>검색 결과 (클릭해서 추가)</div>
         <ul>
-          <li @click="addBook(title)" v-for="title in resultBookTitles" v-text="title"></li>
+          <li @click="addBook(title)" v-for="title in resultBookTitles" key="title" v-text="title"></li>
         </ul>
       </div>
     </div>
@@ -33,6 +29,8 @@ import Component from 'vue-class-component'
 import jsonp from 'jsonp'
 
 import firebaseConfig from '../firebase.json'
+
+import Card from './component/Card.vue'
 
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const db = firebaseApp.database()
@@ -53,6 +51,9 @@ const componentOptions: FirebaseComponentOption = {
   name: 'app',
   firebase: {
     books: booksRef
+  },
+  components: {
+    card: Card
   }
 }
 
@@ -118,5 +119,16 @@ li {
 
 a {
   color: #42b983;
+}
+
+* {
+  box-sizing: border-box;
+}
+</style>
+
+<style module>
+.cards {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
