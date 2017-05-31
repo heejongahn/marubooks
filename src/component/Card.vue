@@ -1,6 +1,8 @@
 <template>
   <div :class="$style.card">
-    <div v-text="book.title" />
+    <img :src="book.cover_s_url" />
+    <div>{{ book.title }}</div>
+    <div>{{ book.pub_nm }}</div>
   </div>
 </template>
 
@@ -8,13 +10,20 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 
+interface Book {
+  author: string,
+  title: string,
+  cover_s_url: string,
+  cover_l_url: string,
+  pub_nm: string,
+  isbn13: string
+}
+
 @Component({
-  props: {
-    book: { title: String }
-  }
+  props: [ "book" ]
 })
 export default class Card extends Vue {
-  book: { title: String }
+  book: Book
 }
 </script>
 

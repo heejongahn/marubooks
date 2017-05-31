@@ -13,7 +13,7 @@
       <div v-else>
         <div>검색 결과 (클릭해서 추가)</div>
         <ul>
-          <li @click="addBook(title)" v-for="title in resultBookTitles" key="title" v-text="title"></li>
+          <li @click="addBook(book)" v-for="book in searchResult" key="title" v-text="book.title"></li>
         </ul>
       </div>
     </div>
@@ -40,7 +40,12 @@ const booksRef = db.ref('books')
 Vue.use(VueFire)
 
 interface Book {
-  title: string
+  author: string,
+  title: string,
+  cover_s_url: string,
+  cover_l_url: string,
+  pub_nm: string,
+  isbn13: string
 }
 
 interface FirebaseComponentOption extends ComponentOptions<Vue> {
@@ -82,10 +87,8 @@ export default class App extends Vue {
     })
   }
 
-  addBook (title: string):void {
-    this.$firebaseRefs.books.push({
-      title
-    })
+  addBook (book: Book):void {
+    this.$firebaseRefs.books.push(book)
   }
 
   deleteBook (book: {key: string}): void {
