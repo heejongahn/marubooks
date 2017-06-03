@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="$style.app">
+  <div :class="$style.app">
     <h1 :class="$style.siteName">마루책방</h1>
     <div :class="$style.search">
       <div :class="$style.queryDiv">
