@@ -26,20 +26,11 @@
 /// <reference path="../typings.d.ts" />
 import Vue, { ComponentOptions } from 'vue'
 import VueFire from 'vuefire'
-import firebase from 'firebase'
 import Component from 'vue-class-component'
 import jsonp from 'jsonp'
-
-import firebaseConfig from '../firebase.json'
+import db from './db'
 
 import Card from './component/Card.vue'
-
-const firebaseApp = firebase.initializeApp(firebaseConfig)
-const db = firebaseApp.database()
-
-const booksRef = db.ref('books')
-
-Vue.use(VueFire)
 
 interface Book {
   author: string,
@@ -54,10 +45,12 @@ interface FirebaseComponentOption extends ComponentOptions<Vue> {
   firebase: Object
 }
 
+Vue.use(VueFire)
+
 const componentOptions: FirebaseComponentOption = {
-  name: 'app',
+  name: 'index',
   firebase: {
-    books: booksRef
+    books: db.ref('books')
   },
   components: {
     card: Card
@@ -65,7 +58,7 @@ const componentOptions: FirebaseComponentOption = {
 }
 
 @Component(componentOptions)
-export default class App extends Vue {
+export default class Index extends Vue {
   $firebaseRefs: any
   books: Array<Book>
   searchResult: Array<Book> = []

@@ -1,12 +1,14 @@
 import Vue from 'vue'
-import App from './app.vue'
 import VueRouter from 'vue-router'
+
+import Index from './Index.vue'
+import Donate from './Donate.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: App },
-  { path: '/donate', component: App },
+  { path: '/', component: Index },
+  { path: '/donate', component: Donate },
   { path: '*', redirect: '/' }
 ]
 
