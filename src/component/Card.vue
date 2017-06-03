@@ -1,8 +1,10 @@
 <template>
   <div :class="$style.card">
     <img :src="book.cover_s_url" />
+    <!--
     <div>{{ book.title }}</div>
     <div>{{ book.pub_nm }}</div>
+    -->
   </div>
 </template>
 
@@ -29,16 +31,16 @@ export default class Card extends Vue {
 
 <style module>
 .card {
-  max-width: 200px;
+  flex: 1 1 0;
   padding: 12px;
   margin: 8px;
 
   border-radius: 4px;
-  border: 1px solid grey;
+  border: 1px solid #ced3d6;
 }
 
 .card:hover {
-  background-color: grey;
+  background-color: #ced3d6;
   color: white;
 }
 </style>
