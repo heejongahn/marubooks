@@ -7,7 +7,7 @@
         <div v-if="resultExists" :class="$style.resetButton" @click="searchResult = []">X</div>
       </div>
       <div v-if="resultExists" :class="$style.searchResultList">
-        <div v-for="book in searchResult" :key="book.title" @click="addBook(book)" :class="$style.searchResult">
+        <div v-for="book in searchResult" :key="book.key" @click="addBook(book)" :class="$style.searchResult">
           <img :src="book.cover_s_url" :class="$style.bookCover"/>
           <div :class="$style.titleAndPublisher">
             <div v-text="book.title" />
@@ -67,6 +67,7 @@ const componentOptions: FirebaseComponentOption = {
 @Component(componentOptions)
 export default class App extends Vue {
   $firebaseRefs: any
+  books: Array<Book>
   searchResult: Array<Book> = []
   query: string = ''
   loading: boolean = false
@@ -94,7 +95,9 @@ export default class App extends Vue {
   }
 
   addBook (book: Book):void {
-    this.$firebaseRefs.books.push(book)
+    if (!this.books.map(book => book.title).includes(book.title)) {
+      this.$firebaseRefs.books.push(book)
+    }
   }
 
   deleteBook (book: {key: string}): void {
