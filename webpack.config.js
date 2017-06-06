@@ -1,6 +1,28 @@
 var path = require('path')
 var webpack = require('webpack')
 
+const FILE_LOADER = (test, mimetype, url) => {
+  return {
+    test,
+    loader: url ? 'url-loader' : 'file-loader',
+    query: {
+      name: '[path][name].[ext]',
+      limit: 10000,
+      mimetype
+    }
+  }
+}
+
+const fileLoaders = [
+  FILE_LOADER(/\.woff(\?.*)?$/,  'application/font-woff', true),
+  FILE_LOADER(/\.woff2(\?.*)?$/, 'application/font-woff2', true),
+  FILE_LOADER(/\.otf(\?.*)?$/,   'font/opentype'),
+  FILE_LOADER(/\.ttf(\?.*)?$/,   'application/octet-stream', true),
+  FILE_LOADER(/\.eot(\?.*)?$/,   'application/vnd.ms-fontobject'),
+  FILE_LOADER(/\.svg(\?.*)?$/,   'image/svg+xml', true),
+  { test: /\.(png|jpg)$/, loader: 'url-loader', query: { limit: 8192 } }
+]
+
 module.exports = {
   entry: './src/main.ts',
   output: {
@@ -48,7 +70,7 @@ module.exports = {
           name: '[name].[ext]?[hash]'
         }
       }
-    ]
+    , ...fileLoaders]
   },
   resolve: {
     extensions: ['.ts', '.js'],
