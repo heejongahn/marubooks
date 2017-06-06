@@ -8,7 +8,6 @@
       <div :class="$style.publisher">
         {{ book.author }}
       </div>
-      <div :class="$style.deleteButton" class="icon-trash" />
     </div>
     <!--
     <div>{{ book.title }}</div>
