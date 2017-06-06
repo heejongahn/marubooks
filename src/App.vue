@@ -46,6 +46,7 @@ export default ({
 
 <style>
 @import url("../node_modules/normalize.css/normalize.css");
+@import url("../node_modules/feather-icon/css/feather.css");
 
 * { font-family: 'Spoqa Han Sans', 'Spoqa Han Sans JP', 'Sans-serif'; }
 
