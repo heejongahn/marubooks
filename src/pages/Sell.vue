@@ -29,16 +29,8 @@ import Component from 'vue-class-component'
 import jsonp from 'jsonp'
 import db from '../db'
 
+import { Book } from '../interfaces'
 import Card from '../components/Card.vue'
-
-interface Book {
-  author: string,
-  title: string,
-  cover_s_url: string,
-  cover_l_url: string,
-  pub_nm: string,
-  isbn13: string
-}
 
 interface FirebaseComponentOption extends ComponentOptions<Vue> {
   firebase: Object

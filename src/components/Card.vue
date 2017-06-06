@@ -19,15 +19,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-
-interface Book {
-  author: string,
-  title: string,
-  cover_s_url: string,
-  cover_l_url: string,
-  pub_nm: string,
-  isbn13: string
-}
+import { Book } from '../interfaces'
 
 @Component({
   props: [ "book" ]
