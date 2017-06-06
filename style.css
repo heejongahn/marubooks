@@ -18,14 +18,14 @@ body, a, div, span, p, li, h1, h2, h3, h4, h5, h6 {
   color: #2c3e50;
 }
 
-#app {
+#root {
   margin-top: 60px;
   width: 80%;
   max-width: 800px;
 }
 
 @media (max-width: 480px) {
-  #app {
+  #root {
     padding: 24px;
     width: 100%;
   }

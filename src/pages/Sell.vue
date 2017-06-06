@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.app">
+  <div :class="$style.sell">
     <h1 :class="$style.siteName">마루책방</h1>
     <div :class="$style.search">
       <div :class="$style.queryDiv">
@@ -23,14 +23,13 @@
 </template>
 
 <script lang="ts">
-/// <reference path="../typings.d.ts" />
 import Vue, { ComponentOptions } from 'vue'
 import VueFire from 'vuefire'
 import Component from 'vue-class-component'
 import jsonp from 'jsonp'
-import db from './db'
+import db from '../db'
 
-import Card from './component/Card.vue'
+import Card from '../components/Card.vue'
 
 interface Book {
   author: string,
@@ -99,7 +98,7 @@ export default class Sell extends Vue {
 }
 </script>
 <style module>
-.app {
+.sell {
   display: flex;
   flex-direction: column;
   align-items: center;

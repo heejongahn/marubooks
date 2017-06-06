@@ -3,7 +3,6 @@
 </template>
 
 <script lang="ts">
-/// <reference path="../typings.d.ts" />
 import Vue, { ComponentOptions } from 'vue'
 import Component from 'vue-class-component'
 
