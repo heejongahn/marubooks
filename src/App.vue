@@ -55,11 +55,8 @@ export default ({
 }
 
 body {
-  display: flex;
-  justify-content: center;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 }
 
 body, a, div, span, p, li, h1, h2, h3, h4, h5, h6 {
@@ -67,13 +64,19 @@ body, a, div, span, p, li, h1, h2, h3, h4, h5, h6 {
 }
 
 .app {
-  margin-top: 60px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.view {
   width: 80%;
   max-width: 800px;
 }
 
 @media (max-width: 480px) {
-  .app {
+  .view {
     padding: 24px;
     width: 100%;
   }
@@ -101,13 +104,18 @@ a {
 }
 
 nav {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 60px;
+  padding: 20px 40px;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .router-link {
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin-right: 24px;
   transition: color 0.3s ease;
 }
