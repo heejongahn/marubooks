@@ -1,23 +1,18 @@
 <template>
   <div :class="$style.buy">
-    <h1 :class="$style.siteName">마루책방</h1>
-    <div :class="$style.search">
-      <div :class="$style.queryDiv">
-        <input :id="$style.query" type="text" v-model="query" @input="search">
-        <div v-if="resultExists" :class="$style.resetButton" @click="searchResult = []">X</div>
-      </div>
-      <div v-if="resultExists" :class="$style.searchResultList">
-        <div v-for="book in searchResult" :key="book.key" @click="addBook(book)" :class="$style.searchResult">
-          <img :src="book.cover_s_url" :class="$style.bookCover"/>
-          <div :class="$style.titleAndPublisher">
-            <div v-text="book.title" />
-            <div v-text="book.pub_nm" />
-          </div>
-        </div>
+    <div :class="$style.buyHeader">
+      <label :class="$style.filterLabel" :for="$style.filter"><div class="icon-search" /></label>
+      <div :class="$style.filterDiv">
+        <input
+          :id="$style.filter"
+          type="text"
+          v-model="filter"
+          placeholder="책 제목, 저자명, 출판사명으로 검색">
+        <div v-if="filter !==''" class="icon-delete" :class="$style.resetButton" @click="filter=''" />
       </div>
     </div>
     <div :class="$style.cards">
-      <card v-for="book in books" key="book.title" :book="book" />
+      <card v-for="book in filteredBooks" key="book.title" :book="book" />
     </div>
   </div>
 </template>
@@ -26,7 +21,6 @@
 import Vue, { ComponentOptions } from 'vue'
 import VueFire from 'vuefire'
 import Component from 'vue-class-component'
-import jsonp from 'jsonp'
 import db from '../db'
 
 import { Book } from '../interfaces'
@@ -52,40 +46,17 @@ const componentOptions: FirebaseComponentOption = {
 export default class Buy extends Vue {
   $firebaseRefs: any
   books: Array<Book>
-  searchResult: Array<Book> = []
-  query: string = ''
+  filter: string = ''
   loading: boolean = false
 
-  get resultExists (): boolean {
-    return this.searchResult.length > 0
-  }
-
-  search ():void {
-    const _jsonp: Function = jsonp
-    const BASE_URL = 'https://apis.daum.net/search/book'
-    const API_KEY = "2d4d193c680ef190c4d1aeb514a433ef"
-    const url = encodeURI(`${BASE_URL}?apikey=${API_KEY}&result=10&q="${this.query}"&sort=accu&searchType=title&output=json`)
-
-    this.loading = true
-
-    _jsonp(url, null, (_: never, data: { channel: { item: Array<Book> } }) => {
-      this.searchResult = data.channel.item.map(book => ({
-        ...book,
-        title: book.title.replace(/&amp;/g, '&'),
-        pub_nm: book.pub_nm.replace(/&amp;/g, '&')
-      }))
-      this.loading = false
+  get filteredBooks (): Array<Book> {
+    return this.books.filter(book => {
+      return (
+        book.title.includes(this.filter) ||
+        book.pub_nm.includes(this.filter) ||
+        book.author.includes(this.filter)
+      )
     })
-  }
-
-  addBook (book: Book):void {
-    if (!this.books.map(book => book.title).includes(book.title)) {
-      this.$firebaseRefs.books.push(book)
-    }
-  }
-
-  deleteBook (book: {key: string}): void {
-   this.$firebaseRefs.books.child(book['.key']).remove()
   }
 }
 </script>
@@ -94,6 +65,13 @@ export default class Buy extends Vue {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.buy-header {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .site-name {
@@ -108,11 +86,16 @@ export default class Buy extends Vue {
   position: relative;
 }
 
-.query-div {
+.filter-label {
+  margin-right: 24px;
+}
+
+.filter-div {
+  flex-grow: 1;
   position: relative;
 }
 
-#query {
+#filter {
   width: 100%;
   height: 50px;
 
@@ -123,8 +106,8 @@ export default class Buy extends Vue {
   outline: none;
 }
 
-#query:active,
-#query:focus {
+#filter:active,
+#filter:focus {
   border: 2px solid #87b1f3;
   outline: none;
 }
