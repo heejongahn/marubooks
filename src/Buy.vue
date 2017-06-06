@@ -58,7 +58,7 @@ const componentOptions: FirebaseComponentOption = {
 }
 
 @Component(componentOptions)
-export default class Index extends Vue {
+export default class Buy extends Vue {
   $firebaseRefs: any
   books: Array<Book>
   searchResult: Array<Book> = []
@@ -98,39 +98,6 @@ export default class Index extends Vue {
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
-* {
-  box-sizing: border-box;
-}
-</style>
-
 <style module>
 .app {
   display: flex;
@@ -145,13 +112,8 @@ a {
   margin-right: -1rem;
 }
 
-.search,
-.cards {
-  width: 60%;
-  max-width: 800px;
-}
-
 .search {
+  width: 100%;
   position: relative;
 }
 

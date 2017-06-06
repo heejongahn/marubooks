@@ -2,13 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Index from './Index.vue'
-import Donate from './Donate.vue'
+import Buy from './Buy.vue'
+import Sell from './Sell.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', component: Index },
-  { path: '/donate', component: Donate },
+  { path: '/buy', component: Buy },
+  { path: '/sell', component: Sell },
   { path: '*', redirect: '/' }
 ]
 
@@ -19,15 +21,21 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  el: '#app',
   template: `
   <div id="app">
     <nav>
-      <router-link to="/">
-        <h1>마루 책방</h1>
+      <router-link class="router-link" to="/">
+        마루 책방
       </router-link>
-      <router-link to="/donate">
-        <div>긔부하긔</div>
-      </router-link>
+      <div>
+        <router-link class="router-link" to="/buy">
+          사기
+        </router-link>
+        <router-link class="router-link" to="/sell">
+          팔기
+        </router-link>
+      </div>
     </nav>
     <router-view class="view"></router-view>
   </div>
